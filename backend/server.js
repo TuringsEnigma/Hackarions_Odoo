@@ -1,28 +1,20 @@
 import express from "express";
-import cors from "cors";
 import dotenv from "dotenv";
+import bodyParser from "body-parser";
 
 import authRoutes from "./src/routes/authRoutes.js";
 import userRoutes from "./src/routes/userRoutes.js";
+import expenseRoutes from "./src/routes/expenseRoutes.js";
+import cors from "cors";
 
 dotenv.config();
 const app = express();
-
 app.use(cors());
-app.use(express.json());  
+app.use(bodyParser.json());
 
-app.use((req, res, next) => {
-  console.log(`[${req.method}] ${req.url}`, req.body);
-  next();
-});
+app.use("/auth", authRoutes);
+app.use("/users", userRoutes);
+app.use("/api", expenseRoutes);
 
-// Routes
-app.use("/api/auth", authRoutes);
-app.use("/api/users", userRoutes);
 
-// Default route
-app.get("/", (req, res) => res.send("Expense Management API is running"));
-
-// Start server
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+app.listen(process.env.PORT || 3000, () => console.log("Server running..."));

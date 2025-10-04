@@ -1,2 +1,0 @@
-# Hackarions_Odoo
-checking
